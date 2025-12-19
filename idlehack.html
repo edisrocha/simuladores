@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Clicker Hacker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background: #0a0a0a;
+            color: #00ff41;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 255, 65, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 65, 0.05) 0%, transparent 20%);
+        }
+        
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 30, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+        }
+        
+        .header p {
+            color: #00cc33;
+            font-size: 1.1rem;
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-box {
+            background: rgba(0, 20, 0, 0.5);
+            border: 1px solid #008f11;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff41;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #00cc33;
+            font-size: 0.9rem;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .click-section {
+            background: rgba(0, 25, 0, 0.5);
+            border: 1px solid #008f11;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .hack-button {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #003b00, #001a00);
+            border: 3px solid #008f11;
+            color: #00ff41;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.2s;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .hack-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 65, 0.5);
+        }
+        
+        .hack-button:active {
+            transform: scale(0.95);
+        }
+        
+        .hack-button i {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        
+        .upgrades-section {
+            background: rgba(0, 25, 0, 0.5);
+            border: 1px solid #008f11;
+            border-radius: 10px;
+            padding: 20px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            color: #00ff41;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #008f11;
+            text-align: center;
+        }
+        
+        .upgrade {
+            background: rgba(0, 40, 0, 0.3);
+            border: 1px solid #008f11;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upgrade:hover {
+            background: rgba(0, 60, 0, 0.5);
+            transform: translateX(5px);
+        }
+        
+        .upgrade-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .upgrade-name {
+            font-weight: bold;
+            color: #00ff80;
+        }
+        
+        .upgrade-cost {
+            color: #ff9900;
+        }
+        
+        .upgrade-desc {
+            font-size: 0.9rem;
+            color: #00cc66;
+            margin-bottom: 8px;
+        }
+        
+        .upgrade-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #00aaff;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 40, 0, 0.3);
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 1px solid #008f11;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #00ff41, #00b32d);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .logs-container {
+            background: rgba(0, 20, 0, 0.5);
+            border: 1px solid #008f11;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            font-size: 0.9rem;
+            color: #00cc33;
+            margin-bottom: 8px;
+            padding-left: 10px;
+            border-left: 2px solid #00ff41;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .save-section {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .save-btn {
+            padding: 10px 20px;
+            background: rgba(0, 40, 0, 0.5);
+            border: 1px solid #008f11;
+            color: #00ff41;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .save-btn:hover {
+            background: rgba(0, 60, 0, 0.7);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(0, 255, 65, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .achievement-toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 40, 0, 0.9);
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 15px;
+            transform: translateX(200%);
+            transition: transform 0.5s ease;
+            z-index: 100;
+        }
+        
+        .achievement-toast.show {
+            transform: translateX(0);
+        }
+        
+        .achievement-title {
+            color: #00ff41;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-desc {
+            color: #00cc33;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-terminal"></i> IDLE CLICKER HACKER</h1>
+            <p>Clique para hackear sistemas e construa seu império cibernético!</p>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-value" id="bitcoins">0</div>
+                <div class="stat-label">Bitcoins</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="bps">0</div>
+                <div class="stat-label">Bitcoins/Segundo</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="clickPower">1</div>
+                <div class="stat-label">Poder de Clique</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="hackLevel">1</div>
+                <div class="stat-label">Nível de Hack</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="levelProgress"></div>
+        </div>
+        
+        <div class="main-content">
+            <div class="click-section">
+                <h2 class="section-title">TERMINAL PRINCIPAL</h2>
+                <div class="hack-button" id="hackButton">
+                    <i class="fas fa-user-secret"></i>
+                    HACKEAR
+                    <div class="stat-label">+<span id="clickValue">1</span> bitcoin</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="totalClicks">0</div>
+                    <div class="stat-label">Total de Cliques</div>
+                </div>
+            </div>
+            
+            <div class="upgrades-section">
+                <h2 class="section-title">UPGRADES DE HACKING</h2>
+                <div id="upgradesContainer">
+                    <!-- Upgrades serão gerados via JavaScript -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="logs-container" id="logsContainer">
+            <div class="log-entry">Sistema inicializado. Comece a hackear para ganhar bitcoins!</div>
+        </div>
+        
+        <div class="save-section">
+            <button class="save-btn" id="saveBtn"><i class="fas fa-save"></i> Salvar Progresso</button>
+            <button class="save-btn" id="resetBtn"><i class="fas fa-trash"></i> Reiniciar</button>
+        </div>
+    </div>
+    
+    <div class="particles" id="particles"></div>
+    
+    <div class="achievement-toast" id="achievementToast">
+        <div class="achievement-title" id="achievementTitle">Conquista Desbloqueada!</div>
+        <div class="achievement-desc" id="achievementDesc">Descrição da conquista</div>
+    </div>
+
+    <script>
+        // Estado do jogo
+        const gameState = {
+            bitcoins: 0,
+            bps: 0,
+            clickPower: 1,
+            hackLevel: 1,
+            exp: 0,
+            expToNextLevel: 100,
+            totalClicks: 0,
+            upgrades: {
+                autoClicker: { level: 0, cost: 15, bps: 0.5, name: "Auto-Clicker Básico", desc: "Hackeia automaticamente a cada segundo" },
+                botnet: { level: 0, cost: 100, bps: 2, name: "Rede de Bots", desc: "Uma rede de dispositivos hackeados trabalhando para você" },
+                virus: { level: 0, cost: 500, bps: 5, name: "Virus Trojan", desc: "Infecta sistemas para gerar bitcoins automaticamente" },
+                serverFarm: { level: 0, cost: 1200, bps: 10, name: "Fazenda de Servidores", desc: "Servidores dedicados à mineração de bitcoins" },
+                quantumComputer: { level: 0, cost: 5000, bps: 50, name: "Computador Quântico", desc: "Poder de processamento incomparável" },
+                aiSystem: { level: 0, cost: 20000, bps: 100, name: "IA de Hacking", desc: "Inteligência artificial especializada em hacking" },
+                satellite: { level: 0, cost: 75000, bps: 300, name: "Satélite Hackers", desc: "Acessa redes globais de qualquer lugar" },
+                darknet: { level: 0, cost: 300000, bps: 1000, name: "Rede Darknet", desc: "Opera na deep web de forma anônima" }
+            },
+            achievements: {
+                firstHack: { unlocked: false, name: "Primeiro Hack", desc: "Realize seu primeiro hack" },
+                hundredHacks: { unlocked: false, name: "Hacker Novato", desc: "Realize 100 hacks" },
+                thousandHacks: { unlocked: false, name: "Hacker Experiente", desc: "Realize 1000 hacks" },
+                firstUpgrade: { unlocked: false, name: "Primeiro Upgrade", desc: "Compre seu primeiro upgrade" },
+                bitcoinMiner: { unlocked: false, name: "Minerador de Bitcoin", desc: "Alcance 1000 bitcoins" },
+                bitcoinWhale: { unlocked: false, name: "Baleia de Bitcoin", desc: "Alcance 100000 bitcoins" },
+                maxLevel: { unlocked: false, name: "Hacker Lendário", desc: "Alcance o nível máximo de hacker" }
+            }
+        };
+        
+        // Elementos DOM
+        const bitcoinsEl = document.getElementById('bitcoins');
+        const bpsEl = document.getElementById('bps');
+        const clickPowerEl = document.getElementById('clickPower');
+        const hackLevelEl = document.getElementById('hackLevel');
+        const levelProgressEl = document.getElementById('levelProgress');
+        const clickValueEl = document.getElementById('clickValue');
+        const totalClicksEl = document.getElementById('totalClicks');
+        const hackButton = document.getElementById('hackButton');
+        const upgradesContainer = document.getElementById('upgradesContainer');
+        const logsContainer = document.getElementById('logsContainer');
+        const saveBtn = document.getElementById('saveBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const particlesContainer = document.getElementById('particles');
+        const achievementToast = document.getElementById('achievementToast');
+        const achievementTitle = document.getElementById('achievementTitle');
+        const achievementDesc = document.getElementById('achievementDesc');
+        
+        // Inicializar o jogo
+        function initGame() {
+            loadGame();
+            renderUpgrades();
+            updateUI();
+            
+            // Configurar o botão de clique
+            hackButton.addEventListener('click', handleClick);
+            
+            // Configurar botões de salvar e resetar
+            saveBtn.addEventListener('click', saveGame);
+            resetBtn.addEventListener('click', resetGame);
+            
+            // Iniciar loop do jogo
+            setInterval(gameLoop, 1000);
+            setInterval(saveGame, 30000); // Salvar automaticamente a cada 30 segundos
+            
+            // Adicionar log inicial
+            addLog("Sistema de hacking inicializado. Iniciando operação...");
+        }
+        
+        // Loop principal do jogo
+        function gameLoop() {
+            // Gerar bitcoins automaticamente
+            gameState.bitcoins += gameState.bps;
+            
+            // Atualizar a UI
+            updateUI();
+            
+            // Verificar conquistas
+            checkAchievements();
+        }
+        
+        // Manipulador de clique
+        function handleClick() {
+            gameState.bitcoins += gameState.clickPower;
+            gameState.totalClicks++;
+            gameState.exp += gameState.clickPower;
+            
+            // Verificar se subiu de nível
+            if (gameState.exp >= gameState.expToNextLevel) {
+                levelUp();
+            }
+            
+            // Efeitos visuais
+            createParticles();
+            
+            // Atualizar a UI
+            updateUI();
+            
+            // Adicionar log ocasionalmente
+            if (Math.random() > 0.7) {
+                const logs = [
+                    "Sistema vulnerável encontrado!",
+                    "Firewall bypassado com sucesso!",
+                    "Conexão segura estabelecida!",
+                    "Dados criptografados decodificados!",
+                    "Backdoor instalado com sucesso!"
+                ];
+                addLog(logs[Math.floor(Math.random() * logs.length)]);
+            }
+        }
+        
+        // Subir de nível
+        function levelUp() {
+            gameState.hackLevel++;
+            gameState.exp -= gameState.expToNextLevel;
+            gameState.expToNextLevel = Math.floor(gameState.expToNextLevel * 1.5);
+            gameState.clickPower = Math.floor(gameState.clickPower * 1.2);
+            
+            // Adicionar log
+            addLog(`NOVO NÍVEL ALCANÇADO! Agora você é um hacker nível ${gameState.hackLevel}`);
+            
+            // Efeito visual
+            document.body.style.animation = 'none';
+            setTimeout(() => {
+                document.body.style.animation = 'pulse 0.5s';
+            }, 10);
+        }
+        
+        // Comprar upgrade
+        function buyUpgrade(upgradeId) {
+            const upgrade = gameState.upgrades[upgradeId];
+            
+            if (gameState.bitcoins >= upgrade.cost) {
+                gameState.bitcoins -= upgrade.cost;
+                upgrade.level++;
+                gameState.bps += upgrade.bps;
+                
+                // Aumentar custo (progressão)
+                upgrade.cost = Math.ceil(upgrade.cost * 1.5);
+                
+                // Atualizar a UI
+                renderUpgrades();
+                updateUI();
+                
+                // Adicionar log
+                addLog(`UPGRADE COMPRADO: ${upgrade.name} Nível ${upgrade.level}`);
+                
+                // Verificar conquista de primeiro upgrade
+                if (!gameState.achievements.firstUpgrade.unlocked) {
+                    unlockAchievement('firstUpgrade');
+                }
+            }
+        }
+        
+        // Renderizar upgrades
+        function renderUpgrades() {
+            upgradesContainer.innerHTML = '';
+            
+            for (const [id, upgrade] of Object.entries(gameState.upgrades)) {
+                const upgradeEl = document.createElement('div');
+                upgradeEl.className = 'upgrade';
+                upgradeEl.innerHTML = `
+                    <div class="upgrade-header">
+                        <div class="upgrade-name">${upgrade.name} Nv.${upgrade.level}</div>
+                        <div class="upgrade-cost">${upgrade.cost.toFixed(0)} BTC</div>
+                    </div>
+                    <div class="upgrade-desc">${upgrade.desc}</div>
+                    <div class="upgrade-info">
+                        <span>+${upgrade.bps} BTC/s</span>
+                        <span>Total: +${(upgrade.bps * upgrade.level).toFixed(1)} BTC/s</span>
+                    </div>
+                `;
+                
+                upgradeEl.addEventListener('click', () => buyUpgrade(id));
+                upgradesContainer.appendChild(upgradeEl);
+            }
+        }
+        
+        // Atualizar UI
+        function updateUI() {
+            bitcoinsEl.textContent = Math.floor(gameState.bitcoins);
+            bpsEl.textContent = gameState.bps.toFixed(1);
+            clickPowerEl.textContent = gameState.clickPower;
+            hackLevelEl.textContent = gameState.hackLevel;
+            clickValueEl.textContent = gameState.clickPower;
+            totalClicksEl.textContent = gameState.totalClicks;
+            
+            // Atualizar barra de progresso
+            const progress = (gameState.exp / gameState.expToNextLevel) * 100;
+            levelProgressEl.style.width = `${progress}%`;
+        }
+        
+        // Adicionar log
+        function addLog(message) {
+            const logEntry = document.createElement('div');
+            logEntry.className = 'log-entry';
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            
+            logsContainer.appendChild(logEntry);
+            logsContainer.scrollTop = logsContainer.scrollHeight;
+            
+            // Limitar número de logs
+            if (logsContainer.children.length > 50) {
+                logsContainer.removeChild(logsContainer.children[0]);
+            }
+        }
+        
+        // Criar efeito de partículas
+        function createParticles() {
+            const rect = hackButton.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 5 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                
+                const x = centerX + Math.cos(angle) * distance;
+                const y = centerY + Math.sin(angle) * distance;
+                
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                
+                particlesContainer.appendChild(particle);
+                
+                // Animar partícula
+                particle.animate([
+                    { transform: 'translate(0, 0)', opacity: 1 },
+                    { transform: `translate(${Math.cos(angle) * -distance}px, ${Math.sin(angle) * -distance}px)`, opacity: 0 }
+                ], {
+                    duration: 1000,
+                    easing: 'ease-out'
+                });
+                
+                // Remover partícula após animação
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+        
+        // Verificar conquistas
+        function checkAchievements() {
+            // Primeiro hack
+            if (gameState.totalClicks >= 1 && !gameState.achievements.firstHack.unlocked) {
+                unlockAchievement('firstHack');
+            }
+            
+            // 100 hacks
+            if (gameState.totalClicks >= 100 && !gameState.achievements.hundredHacks.unlocked) {
+                unlockAchievement('hundredHacks');
+            }
+            
+            // 1000 hacks
+            if (gameState.totalClicks >= 1000 && !gameState.achievements.thousandHacks.unlocked) {
+                unlockAchievement('thousandHacks');
+            }
+            
+            // 1000 bitcoins
+            if (gameState.bitcoins >= 1000 && !gameState.achievements.bitcoinMiner.unlocked) {
+                unlockAchievement('bitcoinMiner');
+            }
+            
+            // 100000 bitcoins
+            if (gameState.bitcoins >= 100000 && !gameState.achievements.bitcoinWhale.unlocked) {
+                unlockAchievement('bitcoinWhale');
+            }
+            
+            // Nível máximo (50)
+            if (gameState.hackLevel >= 50 && !gameState.achievements.maxLevel.unlocked) {
+                unlockAchievement('maxLevel');
+            }
+        }
+        
+        // Desbloquear conquista
+        function unlockAchievement(achievementId) {
+            const achievement = gameState.achievements[achievementId];
+            achievement.unlocked = true;
+            
+            // Mostrar notificação
+            achievementTitle.textContent = achievement.name;
+            achievementDesc.textContent = achievement.desc;
+            achievementToast.classList.add('show');
+            
+            // Adicionar log
+            addLog(`CONQUISTA DESBLOQUEADA: ${achievement.name} - ${achievement.desc}`);
+            
+            // Ocultar notificação após 5 segundos
+            setTimeout(() => {
+                achievementToast.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Salvar jogo
+        function saveGame() {
+            localStorage.setItem('hackerSave', JSON.stringify(gameState));
+            addLog("Progresso salvo com sucesso!");
+        }
+        
+        // Carregar jogo
+        function loadGame() {
+            const save = localStorage.getItem('hackerSave');
+            if (save) {
+                const saveData = JSON.parse(save);
+                Object.assign(gameState, saveData);
+                addLog("Progresso anterior carregado!");
+            }
+        }
+        
+        // Resetar jogo
+        function resetGame() {
+            if (confirm("Tem certeza que deseja reiniciar o jogo? Todo o progresso será perdido.")) {
+                localStorage.removeItem('hackerSave');
+                
+                // Recarregar a página
+                location.reload();
+            }
+        }
+        
+        // Iniciar o jogo quando a página carregar
+        window.addEventListener('load', initGame);
+        
+        // Adicionar animação de pulso
+        document.body.style.animation = 'none';
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { background-color: #0a0a0a; }
+                50% { background-color: #0a1a0a; }
+                100% { background-color: #0a0a0a; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
